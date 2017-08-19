@@ -2,17 +2,27 @@ package com.example.services;
 
 import com.example.entities.User;
 import com.example.repositories.BasicRepository;
+import com.example.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UsersServiceImpl implements UsersService {
 
+    private final UsersRepository usersRepository;
+
     @Autowired
-    private BasicRepository<String, User> usersRepository;
+    public UsersServiceImpl(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
+    }
 
     @Override
-    public void createIfNotExists(String name) {
-        throw new UnsupportedOperationException();
+    public User createIfNotExists(String name) {
+        User user = usersRepository.read(name);
+        if (user == null) {
+            user = new User(name);
+            usersRepository.create(name, user);
+        }
+        return user;
     }
 }

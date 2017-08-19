@@ -1,11 +1,13 @@
 package com.example.entities;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
 public final class User {
 
-    @NotNull
+    @NotEmpty
     private final String name;
     private final Set<Post> posts = new LinkedHashSet<>();
     private final Set<User> followed = new HashSet<>();

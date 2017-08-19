@@ -1,5 +1,7 @@
 package com.example.services;
 
+import com.example.entities.User;
+
 public interface UsersService {
-    void createIfNotExists(String name);
+    User createIfNotExists(String name);
 }

@@ -1,11 +1,16 @@
 package com.example.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public class Post {
+
     private final UUID id = UUID.randomUUID();
     private final OffsetDateTime date = OffsetDateTime.now();
+
+    @Length(max = 140)
     private String message;
 
     public Post(String message) {

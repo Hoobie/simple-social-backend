@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/user/{userName}")
 public class PostsController {
 
+    private final PostsService postsService;
+
     @Autowired
-    private PostsService postsService;
+    public PostsController(PostsService postsService) {
+        this.postsService = postsService;
+    }
 
     @RequestMapping(path = "post", method = RequestMethod.POST)
     public String createPost(@PathVariable String userName, @RequestBody String message) {
