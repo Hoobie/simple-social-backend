@@ -4,6 +4,7 @@ import com.example.entities.Post;
 import com.example.entities.User;
 import com.example.repositories.PostsRepository;
 import com.example.repositories.UsersRepository;
+import com.example.services.PostsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.UUID;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -32,6 +34,9 @@ public class PostsControllerIntegrationTest {
 
     @Autowired
     private PostsRepository postsRepository;
+
+    @Autowired
+    private PostsService postsService;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -76,5 +81,22 @@ public class PostsControllerIntegrationTest {
         // when then
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldReturnUsersWall() throws Exception {
+        // given
+        String userName = "name";
+        postsService.createPost(userName, new Post("test1"));
+        postsService.createPost(userName, new Post("test2"));
+
+        // when
+        MockHttpServletResponse response = mockMvc.perform(get("/user/{userName}/posts", userName))
+                .andExpect(status().isOk()).andReturn().getResponse();
+
+        // then
+        assertThat(response.getContentAsString())
+                .isNotNull()
+                .matches(".*test2.*test1.*");
     }
 }
