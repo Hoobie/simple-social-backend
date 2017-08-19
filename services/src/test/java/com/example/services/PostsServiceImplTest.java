@@ -68,7 +68,6 @@ public class PostsServiceImplTest {
         postsService.createPost(userName, new Post("message2"));
         postsService.createPost(userName, new Post("message3"));
 
-
         // then
         List<Post> posts = user.getPosts();
         assertThat(posts).hasSize(3);
