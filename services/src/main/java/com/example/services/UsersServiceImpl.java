@@ -1,10 +1,11 @@
 package com.example.services;
 
 import com.example.entities.User;
-import com.example.repositories.BasicRepository;
 import com.example.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -18,11 +19,18 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public User createIfNotExists(String name) {
-        User user = usersRepository.read(name);
-        if (user == null) {
-            user = new User(name);
-            usersRepository.create(name, user);
+        Optional<User> userOptional = findByName(name);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
         }
+
+        User user = new User(name);
+        usersRepository.create(name, user);
         return user;
+    }
+
+    @Override
+    public Optional<User> findByName(String name) {
+        return Optional.ofNullable(usersRepository.read(name));
     }
 }

@@ -6,4 +6,6 @@ import java.util.UUID;
 
 public interface PostsService {
     UUID createPost(String userName, Post post);
+
+    Iterable<Post> getWall(String userName);
 }

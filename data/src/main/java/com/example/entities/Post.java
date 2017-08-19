@@ -1,5 +1,7 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
@@ -8,6 +10,8 @@ import java.util.UUID;
 public class Post {
 
     private final UUID id = UUID.randomUUID();
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private final OffsetDateTime date = OffsetDateTime.now();
 
     @NotNull
