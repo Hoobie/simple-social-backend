@@ -30,12 +30,18 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public Optional<User> findByName(String name) {
-        return Optional.ofNullable(usersRepository.read(name));
+    public void follow(String followerName, String followeeName) {
+        Optional<User> follower = findByName(followerName);
+        Optional<User> followee = findByName(followeeName);
+        if (!follower.isPresent() || !followee.isPresent()) {
+            throw new IllegalArgumentException("Both users must exist");
+        }
+
+        follower.get().getFollowed().add(followee.get());
     }
 
     @Override
-    public void follow(String followerName, String followeeName) {
-        throw new UnsupportedOperationException();
+    public Optional<User> findByName(String name) {
+        return Optional.ofNullable(usersRepository.read(name));
     }
 }
