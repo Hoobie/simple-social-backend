@@ -2,15 +2,16 @@ package com.example.entities;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public final class User {
 
     @NotEmpty
     private final String name;
-    private final Set<Post> posts = new LinkedHashSet<>();
-    private final Set<User> followed = new HashSet<>();
+    private final List<Post> posts = new LinkedList<>();
+    private final List<User> followed = new ArrayList<>();
 
     public User(String name) {
         this.name = name;
@@ -20,11 +21,11 @@ public final class User {
         return name;
     }
 
-    public Set<Post> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public Set<User> getFollowed() {
+    public List<User> getFollowed() {
         return followed;
     }
 

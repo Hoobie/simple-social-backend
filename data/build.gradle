@@ -1,6 +1,7 @@
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.2.4.Final'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.0'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'

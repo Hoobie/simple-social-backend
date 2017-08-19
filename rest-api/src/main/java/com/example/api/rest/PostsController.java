@@ -22,4 +22,9 @@ public class PostsController {
     public String createPost(@PathVariable String userName, @RequestBody @Valid Post post) {
         return postsService.createPost(userName, post).toString();
     }
+
+    @RequestMapping(path = "posts", method = RequestMethod.GET)
+    public Iterable<Post> getWall(@PathVariable String userName) {
+        return postsService.getWall(userName);
+    }
 }
