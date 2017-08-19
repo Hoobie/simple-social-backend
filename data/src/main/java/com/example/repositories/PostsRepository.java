@@ -1,13 +1,13 @@
 package com.example.repositories;
 
 import com.example.entities.Post;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@Repository
+@Component
 public class PostsRepository implements BasicRepository<UUID, Post> {
 
     private final Map<UUID, Post> posts = new LinkedHashMap<>();

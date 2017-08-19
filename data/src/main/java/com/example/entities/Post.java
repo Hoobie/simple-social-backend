@@ -1,7 +1,7 @@
 package com.example.entities;
 
-import org.hibernate.validator.constraints.Length;
-
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -10,8 +10,13 @@ public class Post {
     private final UUID id = UUID.randomUUID();
     private final OffsetDateTime date = OffsetDateTime.now();
 
-    @Length(max = 140)
+    @NotNull
+    @Size(max = 140)
     private String message;
+
+    private Post() {
+        // no-arg Jackson constructor
+    }
 
     public Post(String message) {
         this.message = message;

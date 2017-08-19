@@ -21,8 +21,7 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
-    public UUID createPost(String userName, String message) {
-        Post post = new Post(message);
+    public UUID createPost(String userName, Post post) {
         User user = usersService.createIfNotExists(userName);
         postRepository.create(post.getId(), post);
         user.getPosts().add(post);
