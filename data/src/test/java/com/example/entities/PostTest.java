@@ -36,6 +36,19 @@ public class PostTest {
     }
 
     @Test
+    public void shouldNotCreatePostWithNullMessage() throws Exception {
+        // given
+        Post post = new Post(null);
+
+        // when
+        Set<ConstraintViolation<Post>> constraintViolations = validator.validate(post);
+
+        // then
+        assertThat(constraintViolations).hasSize(1);
+        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be null");
+    }
+
+    @Test
     public void shouldNotCreatePostWithMessageTooLong() throws Exception {
         // given
         StringBuilder message = new StringBuilder();
@@ -49,6 +62,6 @@ public class PostTest {
 
         // then
         assertThat(constraintViolations).hasSize(1);
-        assertThat(constraintViolations.iterator().next().getMessage()).contains("length must be between 0 and 140");
+        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("size must be between 0 and 140");
     }
 }

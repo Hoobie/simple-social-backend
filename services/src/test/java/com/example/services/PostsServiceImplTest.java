@@ -37,10 +37,11 @@ public class PostsServiceImplTest {
     public void shouldCreatePost() throws Exception {
         // given
         User user = new User("name");
+        Post post = new Post("message");
         when(usersService.createIfNotExists("name")).thenReturn(user);
 
         // when
-        UUID id = postsService.createPost("name", "message");
+        UUID id = postsService.createPost("name", post);
 
         // then
         verify(usersService).createIfNotExists("name");
@@ -49,7 +50,6 @@ public class PostsServiceImplTest {
         assertThat(id).isNotNull();
         assertThat(user.getPosts()).hasSize(1);
 
-        Post post = user.getPosts().iterator().next();
         assertThat(post.getMessage()).isEqualTo("message");
         assertThat(post.getDate().isBefore(OffsetDateTime.now())).isTrue();
     }
