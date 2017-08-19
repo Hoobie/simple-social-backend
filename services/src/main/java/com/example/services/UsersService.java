@@ -8,4 +8,6 @@ public interface UsersService {
     User createIfNotExists(String name);
 
     Optional<User> findByName(String name);
+
+    void follow(String followerName, String followeeName);
 }

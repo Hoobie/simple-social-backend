@@ -33,4 +33,9 @@ public class UsersServiceImpl implements UsersService {
     public Optional<User> findByName(String name) {
         return Optional.ofNullable(usersRepository.read(name));
     }
+
+    @Override
+    public void follow(String followerName, String followeeName) {
+        throw new UnsupportedOperationException();
+    }
 }
