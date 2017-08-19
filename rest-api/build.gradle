@@ -1,0 +1,10 @@
+jar {
+    baseName = 'simple-social-backend-rest-api'
+}
+
+dependencies {
+    compile project(':services')
+    compile("org.springframework.boot:spring-boot-starter-web")
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}

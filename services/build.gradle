@@ -1,0 +1,6 @@
+dependencies {
+    compile project(':data')
+    compile('org.springframework.boot:spring-boot-starter')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
