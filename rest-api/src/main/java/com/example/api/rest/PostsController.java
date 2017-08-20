@@ -27,4 +27,9 @@ public class PostsController {
     public Iterable<Post> getWall(@PathVariable String userName) {
         return postsService.getWall(userName);
     }
+
+    @RequestMapping(path = "timeline", method = RequestMethod.GET)
+    public Iterable<Post> getTimeline(@PathVariable String userName) {
+        return postsService.getTimeline(userName);
+    }
 }

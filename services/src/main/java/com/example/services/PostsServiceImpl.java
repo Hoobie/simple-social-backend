@@ -6,6 +6,7 @@ import com.example.repositories.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,11 +33,16 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
-    public Iterable<Post> getWall(String name) {
+    public Collection<Post> getWall(String name) {
         Optional<User> user = usersService.findByName(name);
         if (user.isPresent()) {
             return user.get().getPosts();
         }
         return emptyList();
+    }
+
+    @Override
+    public Collection<Post> getTimeline(String userName) {
+        throw new UnsupportedOperationException();
     }
 }

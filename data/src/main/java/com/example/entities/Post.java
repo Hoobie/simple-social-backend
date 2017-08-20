@@ -7,12 +7,12 @@ import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class Post {
+public class Post implements Comparable<Post> {
 
     private final UUID id = UUID.randomUUID();
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-    private final OffsetDateTime date = OffsetDateTime.now();
+    private OffsetDateTime date = OffsetDateTime.now();
 
     @NotNull
     @Size(max = 140)
@@ -32,6 +32,10 @@ public class Post {
 
     public OffsetDateTime getDate() {
         return date;
+    }
+
+    public void setDate(OffsetDateTime date) {
+        this.date = date;
     }
 
     public String getMessage() {
@@ -55,5 +59,11 @@ public class Post {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public int compareTo(Post other) {
+        if (other.equals(this)) return 0;
+        return other.date.compareTo(date);
     }
 }

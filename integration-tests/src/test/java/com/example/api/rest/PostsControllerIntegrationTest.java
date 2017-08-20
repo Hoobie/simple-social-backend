@@ -99,4 +99,25 @@ public class PostsControllerIntegrationTest {
                 .isNotNull()
                 .matches(".*test2.*test1.*");
     }
+
+    @Test
+    public void shouldReturnUsersTimeline() throws Exception {
+        // given
+        String userName = "user1";
+        String followeeName = "user2";
+        postsService.createPost(userName, new Post("test1"));
+        postsService.createPost(followeeName, new Post("test2"));
+        postsService.createPost(followeeName, new Post("test3"));
+
+        // when
+        MockHttpServletResponse response = mockMvc.perform(get("/user/{userName}/timeline", userName))
+                .andExpect(status().isOk()).andReturn().getResponse();
+
+        // then
+        assertThat(response.getContentAsString())
+                .isNotNull()
+                .doesNotContain("test1")
+                .contains("test2")
+                .contains("test3");
+    }
 }
