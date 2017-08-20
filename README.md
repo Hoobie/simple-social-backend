@@ -13,6 +13,9 @@ JDK 1.8
 java -jar rest-api/build/libs/simple-social-backend-rest-api-0.1.0-SNAPSHOT.jar 
 ```
 
+## CI
+[![CircleCI](https://circleci.com/gh/Hoobie/simple-social-backend.svg?style=svg)](https://circleci.com/gh/Hoobie/simple-social-backend)
+
 ## API
 
 ### Posting
