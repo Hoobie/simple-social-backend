@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.TreeSet;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 
@@ -43,6 +45,13 @@ public class PostsServiceImpl implements PostsService {
 
     @Override
     public Collection<Post> getTimeline(String userName) {
-        throw new UnsupportedOperationException();
+        Optional<User> user = usersService.findByName(userName);
+        if (!user.isPresent()) {
+            return emptyList();
+        }
+
+        return user.get().getFollowed().stream()
+                .flatMap(followee -> followee.getPosts().stream())
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 }
