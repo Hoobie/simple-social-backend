@@ -6,8 +6,11 @@ import com.example.repositories.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.TreeSet;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 
@@ -32,11 +35,23 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
-    public Iterable<Post> getWall(String name) {
+    public Collection<Post> getWall(String name) {
         Optional<User> user = usersService.findByName(name);
         if (user.isPresent()) {
             return user.get().getPosts();
         }
         return emptyList();
+    }
+
+    @Override
+    public Collection<Post> getTimeline(String userName) {
+        Optional<User> user = usersService.findByName(userName);
+        if (!user.isPresent()) {
+            return emptyList();
+        }
+
+        return user.get().getFollowed().stream()
+                .flatMap(followee -> followee.getPosts().stream())
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 }

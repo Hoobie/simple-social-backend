@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -98,5 +99,34 @@ public class PostsControllerIntegrationTest {
         assertThat(response.getContentAsString())
                 .isNotNull()
                 .matches(".*test2.*test1.*");
+    }
+
+    @Test
+    public void shouldReturnUsersTimeline() throws Exception {
+        // given
+        String userName = "user1";
+        String followeeName = "user2";
+
+        postsService.createPost(userName, new Post("test1"));
+        Post post2 = new Post("test2");
+        post2.setDate(OffsetDateTime.now().plusMinutes(1));
+        postsService.createPost(followeeName, post2);
+        Post post3 = new Post("test3");
+        post3.setDate(OffsetDateTime.now().plusMinutes(2));
+        postsService.createPost(followeeName, post3);
+
+        mockMvc.perform(post("/following/{follower}/{followee}", userName, followeeName))
+                .andExpect(status().isOk());
+
+        // when
+        MockHttpServletResponse response = mockMvc.perform(get("/user/{userName}/timeline", userName))
+                .andExpect(status().isOk()).andReturn().getResponse();
+
+        // then
+        assertThat(response.getContentAsString())
+                .isNotNull()
+                .doesNotContain("test1")
+                .contains("test2")
+                .contains("test3");
     }
 }

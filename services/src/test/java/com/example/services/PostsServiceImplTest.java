@@ -10,9 +10,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -77,16 +75,50 @@ public class PostsServiceImplTest {
     }
 
     @Test
-    public void shouldReturnEmptyUsersWall() throws Exception {
+    public void shouldReturnEmptyWall() throws Exception {
         // given
         when(usersService.findByName("name")).thenReturn(Optional.empty());
 
         // when
-        Iterable<Post> posts = postsService.getWall("name");
+        Collection<Post> posts = postsService.getWall("name");
 
         // then
         assertThat(posts)
                 .isNotNull()
                 .isEmpty();
+    }
+
+    @Test
+    public void shouldReturnTimeline() throws Exception {
+        // given
+        String userName1 = "name1";
+        String userName2 = "name2";
+        String userName3 = "name2";
+        User user1 = new User(userName1);
+        User user2 = new User(userName2);
+        User user3 = new User(userName3);
+        user1.getFollowed().add(user2);
+        user1.getFollowed().add(user3);
+
+        Post post0 = new Post("test0");
+        Post post1 = new Post("test1");
+        Post post2 = new Post("test2");
+        post2.setDate(OffsetDateTime.now().plusMinutes(1));
+        Post post3 = new Post("test3");
+        post3.setDate(OffsetDateTime.now().plusMinutes(2));
+        Post post4 = new Post("test4");
+        post4.setDate(OffsetDateTime.now().plusMinutes(3));
+        user1.getPosts().add(post0);
+        user2.getPosts().add(post1);
+        user3.getPosts().add(post2);
+        user2.getPosts().add(post3);
+        user3.getPosts().add(post4);
+        when(usersService.findByName(userName1)).thenReturn(Optional.of(user1));
+
+        // when
+        List<Post> posts = new ArrayList<>(postsService.getTimeline(userName1));
+
+        // then
+        assertThat(posts).containsExactly(post4, post3, post2, post1);
     }
 }
