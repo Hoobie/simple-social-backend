@@ -10,7 +10,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -74,18 +77,16 @@ public class PostsServiceImplTest {
         assertThat(posts.get(2).getMessage()).isEqualTo("message1");
     }
 
-    @Test
-    public void shouldReturnEmptyWall() throws Exception {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotReturnWallWhenUserDoesNotExist() throws Exception {
         // given
         when(usersService.findByName("name")).thenReturn(Optional.empty());
 
         // when
-        Collection<Post> posts = postsService.getWall("name");
+        postsService.getWall("name");
 
         // then
-        assertThat(posts)
-                .isNotNull()
-                .isEmpty();
+        // exception
     }
 
     @Test
@@ -120,5 +121,17 @@ public class PostsServiceImplTest {
 
         // then
         assertThat(posts).containsExactly(post4, post3, post2, post1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotReturnTimelineWhenUserDoesNotExist() throws Exception {
+        // given
+        when(usersService.findByName("name")).thenReturn(Optional.empty());
+
+        // when
+        postsService.getTimeline("name");
+
+        // then
+        // exception
     }
 }

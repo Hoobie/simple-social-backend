@@ -28,17 +28,17 @@ java -jar rest-api/build/libs/simple-social-backend-rest-api-0.1.0-SNAPSHOT.jar
 
 |URI|Method|Params|Success response|Error response|Notes|
 |---|---|---|---|---|---|
-|/user/{userName}/posts|GET||Code: 200, Content: An array of user's posts (in reverse chronological order)||Returns an empty array if a user does not exist|
+|/user/{userName}/posts|GET| |Code: 200, Content: An array of user's posts (in reverse chronological order)|Code: 404 - if a user does not exist| |
 
 
 ### Following
 
 |URI|Method|Params|Success response|Error response|Notes|
 |---|---|---|---|---|---|
-|/following/{followerName}/{followeeName}|POST||Code: 200|Code: 400 - if a user does not exist|Creates a follow relationship|
+|/following/{followerName}/{followeeName}|POST| |Code: 200|Code: 404 - if a user does not exist|Creates a follow relationship|
 
 ### Timeline
 
 |URI|Method|Params|Success response|Error response|Notes|
 |---|---|---|---|---|---|
-|/user/{userName}/timeline|GET||Code: 200, Content: An array of followes' posts (in reverse chronological order)||Returns an empty array if a user does not exist|
+|/user/{userName}/timeline|GET| |Code: 200, Content: An array of followes' posts (in reverse chronological order)|Code: 404 - if a user does not exist| |

@@ -62,6 +62,6 @@ public class FollowingsControllerIntegrationTest {
 
         // when then
         mockMvc.perform(post("/following/{follower}/{followee}", followerName, followeeName))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 }
