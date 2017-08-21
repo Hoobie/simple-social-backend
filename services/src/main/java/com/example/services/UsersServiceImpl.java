@@ -33,8 +33,11 @@ public class UsersServiceImpl implements UsersService {
     public void follow(String followerName, String followeeName) {
         Optional<User> follower = findByName(followerName);
         Optional<User> followee = findByName(followeeName);
-        if (!follower.isPresent() || !followee.isPresent()) {
-            throw new IllegalArgumentException("Both users must exist");
+        if (!follower.isPresent()) {
+            throw new IllegalArgumentException(follower + " does not exist");
+        }
+        if (!followee.isPresent()) {
+            throw new IllegalArgumentException(followee + " does not exist");
         }
 
         follower.get().getFollowed().add(followee.get());

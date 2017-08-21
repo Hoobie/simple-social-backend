@@ -12,8 +12,6 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.emptyList;
-
 @Service
 public class PostsServiceImpl implements PostsService {
 
@@ -35,19 +33,19 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
-    public Collection<Post> getWall(String name) {
-        Optional<User> user = usersService.findByName(name);
+    public Collection<Post> getWall(String userName) {
+        Optional<User> user = usersService.findByName(userName);
         if (user.isPresent()) {
             return user.get().getPosts();
         }
-        return emptyList();
+        throw new IllegalArgumentException(userName + " does not exist");
     }
 
     @Override
     public Collection<Post> getTimeline(String userName) {
         Optional<User> user = usersService.findByName(userName);
         if (!user.isPresent()) {
-            return emptyList();
+            throw new IllegalArgumentException(userName + " does not exist");
         }
 
         return user.get().getFollowed().stream()
