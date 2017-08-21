@@ -2,9 +2,10 @@ package com.example.api.rest;
 
 import com.example.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/following")
@@ -15,11 +16,6 @@ public class FollowingsController {
     @Autowired
     public FollowingsController(UsersService usersService) {
         this.usersService = usersService;
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> exceptionHandler(Exception e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(path = "{followerName}/{followeeName}", method = RequestMethod.POST)
